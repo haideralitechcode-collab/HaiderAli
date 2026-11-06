@@ -560,3 +560,30 @@ cart-drawer .quantity__input {
   text-align: center;
   font-size: 14px !important;
 }
+
+cart-drawer .product-option {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #5c5c5c;
+}
+
+cart-drawer .product-option dt,
+cart-drawer .product-option dd {
+  margin: 0;
+  display: inline;
+}
+
+cart-drawer .cart-item__quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+cart-drawer .cart-item__name {
+  margin-bottom: 4px !important;
+}
