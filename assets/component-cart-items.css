@@ -38,7 +38,8 @@ cart-items .title-wrapper-with-link {
 
 .cart-item__image {
   height: auto;
-  max-width: calc(10rem / var(--font-body-scale));
+  max-width: calc(10rem / var(--font-body-scale, 1));
+  max-width: 100px;
 }
 
 @media screen and (min-width: 750px) {
@@ -49,12 +50,15 @@ cart-items .title-wrapper-with-link {
 
 .cart-item__details {
   font-size: 1.6rem;
-  line-height: calc(1 + 0.4 / var(--font-body-scale));
+  font-size: 16px;
+  line-height: calc(1 + 0.4 / var(--font-body-scale, 1));
+  line-height: 1.4;
 }
 
 .cart-item__details > * {
   margin: 0;
   max-width: 30rem;
+  max-width: none;
 }
 
 .cart-item__details > * + * {
