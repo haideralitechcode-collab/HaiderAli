@@ -704,3 +704,59 @@ cart-drawer .cart-remove-button svg {
 cart-drawer .cart-item .loading__spinner {
   padding-top: 0 !important;
 }
+
+cart-drawer #CartDrawer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+cart-drawer .drawer__inner > .drawer__header,
+cart-drawer .drawer__inner > cart-drawer-items,
+cart-drawer .drawer__inner > .drawer__footer {
+  width: 100%;
+}
+
+cart-drawer .drawer__inner > cart-drawer-items {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+@media screen and (max-height: 650px) {
+  cart-drawer-items {
+    overflow-y: auto !important;
+  }
+
+  cart-drawer .drawer__inner {
+    overflow: hidden !important;
+  }
+}
+
+cart-drawer .cart-item .loading__spinner.hidden,
+cart-drawer .loading__spinner.hidden {
+  display: none !important;
+}
+
+cart-drawer .cart-item__totals .loading__spinner:not(.hidden) {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+cart-drawer cart-remove-button .button {
+  box-shadow: none !important;
+}
+
+cart-drawer .cart-remove-button:empty,
+cart-drawer cart-remove-button:not(:has(svg)):not(:has(img)) .cart-remove-button {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4.25 6h11.5M8 5.25a2 2 0 1 1 4 0M5.75 12.2V6h8.5c0 2.42 0 3.78 0 6.2 0 .85 0 1.45-.04 1.91-.04.45-.11.71-.21.91a2.5 2.5 0 0 1-.98 1.02c-.2.1-.46.17-.91.21-.46.04-1.06.04-1.91.04h-.4c-.85 0-1.45 0-1.91-.04-.45-.04-.71-.11-.91-.21a2.5 2.5 0 0 1-.98-1.02c-.1-.2-.17-.46-.21-.91C5.75 13.65 5.75 13.05 5.75 12.2z' stroke='%23121212' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+}
