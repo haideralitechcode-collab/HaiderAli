@@ -76,37 +76,10 @@ html {
     margin: 0;
 }
 
-.main-banner-section .container {
-    position: relative;
-    min-height: 520px;
-    overflow: hidden;
-}
-
-.main-banner-img {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.main-banner-img .main-banner-img__image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
 .content-main {
-    position: relative;
-    z-index: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 520px;
-    background: transparent;
+    justify-content: space-between;
 }
 
 .content-main__info__heading {
@@ -129,15 +102,14 @@ html {
 }
 
 .content-main__info.content-section {
-    max-width: 42%;
+    max-width: 40%;
     padding-left: 376px;
-    flex: 0 0 42%;
-    background: transparent;
+    flex: 0 0 40%;
 }
 
-/* Desktop: hero pattern is full-bleed; hide duplicate right image */
 .content-main__info.image-section {
-    display: none;
+    max-width: 60%;
+    flex: 0 0 60%;
 }
 
 .btn.btn-secondary {
@@ -280,11 +252,6 @@ html {
         max-width: 25px;
     }
 
-    .main-banner-section .container,
-    .content-main {
-        min-height: 480px;
-    }
-
     .content-main__info__heading {
         font-size: 70px;
         font-weight: 500;
@@ -293,8 +260,8 @@ html {
     }
 
     .content-main__info.content-section {
-        padding: 40px 0 40px 50px;
-        background: transparent;
+        padding-left: 50px;
+        padding-bottom: 0;
     }
 
     .content-main__info__desc {
@@ -371,19 +338,12 @@ html {
         visibility: visible;
     }
 
-    .main-banner-section .container,
-    .content-main {
-        min-height: 0;
-    }
-
     .main-banner-img {
         display: none;
     }
 
     .content-main {
         flex-direction: column;
-        align-items: stretch;
-        min-height: 0;
     }
 
     .content-main__info.content-section,
@@ -394,7 +354,6 @@ html {
 
     .content-main__info.content-section {
         padding: 0 16px;
-        order: 1;
     }
 
     .content-main__info__heading {
@@ -445,7 +404,6 @@ html {
 
     .content-main__info.image-section {
         display: block;
-        order: 2;
         width: 100%;
         height: auto;
         position: relative;
@@ -453,7 +411,7 @@ html {
         padding-top: 70%;
     }
 
-    .content-main__info.image-section .main-banner-img__image {
+    .main-banner-img__image {
         display: block;
         max-width: 100%;
         max-height: 100%;
