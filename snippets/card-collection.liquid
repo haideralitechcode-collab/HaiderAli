@@ -1,0 +1,21 @@
+{% comment %}
+  Minimal collection card for empty cart drawer recommendations.
+  @param {object} card_collection - Collection drop
+  @param {number} [columns] - Unused; kept for Dawn call compatibility
+{% endcomment %}
+{%- if card_collection != blank -%}
+  <div class="card-collection">
+    <a href="{{ card_collection.url }}" class="card-collection__link">
+      {%- if card_collection.featured_image -%}
+        <img
+          src="{{ card_collection.featured_image | image_url: width: 600 }}"
+          alt="{{ card_collection.title | escape }}"
+          width="{{ card_collection.featured_image.width }}"
+          height="{{ card_collection.featured_image.height }}"
+          loading="lazy"
+        >
+      {%- endif -%}
+      <span class="card-collection__title">{{ card_collection.title }}</span>
+    </a>
+  </div>
+{%- endif -%}

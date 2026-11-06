@@ -1,0 +1,10 @@
+{% comment %}
+  Minimal section used by cart Section Rendering API.
+  Horizon header bubble is updated via JS (updateHorizonCartBubble).
+{% endcomment %}
+<span class="visually-hidden">{{ 'accessibility.cart' | t }}: {{ cart.item_count }}</span>
+{% if cart.item_count > 0 %}
+  <div class="cart-count-bubble">
+    <span aria-hidden="true">{{ cart.item_count }}</span>
+  </div>
+{% endif %}

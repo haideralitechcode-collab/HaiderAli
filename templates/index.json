@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "hero_jVaWmY": {
       "type": "hero",
@@ -276,10 +277,75 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "main_banner_qjmEhb": {
+      "type": "main-banner",
+      "settings": {
+        "main_logo": "shopify://shop_images/Group_1000007777.png",
+        "top_bar_content": "Find the ideal gift for your loved ones.",
+        "choose_gift-btn-text": "Choose Gift",
+        "heading": "The Gift Guide",
+        "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "shop_now_text": "Shop Now",
+        "banner_bottom_bar_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "banner_bottom_bar_text_mobile": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+      }
+    },
+    "feature_product_with_popup_Fhdbra": {
+      "type": "feature-product-with-popup",
+      "blocks": {
+        "product_XwqLFj": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag"
+          }
+        },
+        "product_QVTW7U": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo"
+          }
+        },
+        "product_WeMxyz": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt"
+          }
+        },
+        "product_jacVBc": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket"
+          }
+        },
+        "product_awC9XH": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top"
+          }
+        },
+        "product_4thFpn": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top"
+          }
+        }
+      },
+      "block_order": [
+        "product_XwqLFj",
+        "product_QVTW7U",
+        "product_WeMxyz",
+        "product_jacVBc",
+        "product_awC9XH",
+        "product_4thFpn"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "main_banner_qjmEhb",
+    "feature_product_with_popup_Fhdbra"
   ]
 }
