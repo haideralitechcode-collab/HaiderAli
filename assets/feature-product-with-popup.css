@@ -52,17 +52,17 @@
 }
 
 .product-grid .product-grid__item:nth-child(4) .more-details {
-    top: 20%;
-    left: 60%;
+    top: 23%;
+    left: 65%;
 }
 
 .product-grid .product-grid__item:nth-child(5) .more-details {
-    top: 34%;
+    top: 28%;
     left: 48%;
 }
 
 .product-grid .product-grid__item:nth-child(6) .more-details {
-    top: 24%;
+    top: 44%;
     left: 68%;
 }
 
