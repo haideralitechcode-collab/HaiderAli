@@ -37,13 +37,13 @@
 
 /* Figma hotspot positions (percent of each card) */
 .product-grid .product-grid__item:nth-child(1) .more-details {
-    top: 48%;
-    left: 40%;
+    top: 58%;
+    left: 57%;
 }
 
 .product-grid .product-grid__item:nth-child(2) .more-details {
-    top: 26%;
-    left: 70%;
+    top: 54%;
+    left: 73%;
 }
 
 .product-grid .product-grid__item:nth-child(3) .more-details {
