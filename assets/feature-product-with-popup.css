@@ -23,6 +23,47 @@
     cursor: pointer;
     background-color: transparent;
     border: 0;
+    padding: 0;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+}
+
+.product-grid .more-details img {
+    display: block;
+    width: 25px;
+    height: 25px;
+    pointer-events: none;
+}
+
+/* Figma hotspot positions (percent of each card) */
+.product-grid .product-grid__item:nth-child(1) .more-details {
+    top: 58%;
+    left: 57%;
+}
+
+.product-grid .product-grid__item:nth-child(2) .more-details {
+    top: 54%;
+    left: 73%;
+}
+
+.product-grid .product-grid__item:nth-child(3) .more-details {
+    top: 24%;
+    left: 58%;
+}
+
+.product-grid .product-grid__item:nth-child(4) .more-details {
+    top: 20%;
+    left: 60%;
+}
+
+.product-grid .product-grid__item:nth-child(5) .more-details {
+    top: 34%;
+    left: 48%;
+}
+
+.product-grid .product-grid__item:nth-child(6) .more-details {
+    top: 24%;
+    left: 68%;
 }
 
 .product-grid .product-grid__item-main {
@@ -78,21 +119,33 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 36px 17px 25px;
+    padding: 36px 16px 25px;
     width: 311px;
     position: relative;
     border-radius: 0;
 }
 .close-button {
-    background-color: transparent;
+    background-color: #fff;
     border: 0;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: absolute;
-    right: 15px;
-    top: 12px;
+    right: 6px;
+    top: 6px;
+    width: 28px;
+    height: 28px;
+    z-index: 6;
+    line-height: 0;
+    cursor: pointer;
+}
+.close-button svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+    pointer-events: none;
 }
 .show-modal {
     opacity: 1;
@@ -115,6 +168,9 @@
     line-height: 19.2px;
     text-align: left;
     margin: 0;
+    padding-right: 22px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .modal-body__info__content__price {
@@ -163,6 +219,9 @@
 .modal-body__info__content {
     max-width: calc(56.5% - 8px);
     flex: 0 0 calc(56.5% - 8px);
+    padding-right: 24px;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 #popup-colors .btn-items{
@@ -368,49 +427,15 @@
         margin-bottom: 30px;
     }
 
-    .product-grid .product-grid__item:nth-child(1) .more-details {
-        top: 238px;
-        left: 256px;
-    }
-
-    .product-grid .product-grid__item:nth-child(2) .more-details {
-        top: 222px;
-        left: 355px;
-    }
-
-    .product-grid .product-grid__item:nth-child(3) .more-details {
-        top: 82px;
-        left: 261px;
-    }
-
-    .product-grid .product-grid__item:nth-child(4) .more-details {
-        top: 71px;
-        left: 301px;
-    }
-
-    .product-grid .product-grid__item:nth-child(5) .more-details {
-        top: 104px;
-        left: 212px;
-    }
-
-    .product-grid .product-grid__item:nth-child(6) .more-details {
-        top: 164px;
-        left: 319px;
+    .product-grid .more-details img {
+        width: 28px;
+        height: 28px;
     }
 
     #add-to-cart-btn .icon img {
         width: 35px;
     }
 }
-
-@media (max-width: 1919px) {
-    .product-grid .product-grid__item:nth-child(1) .more-details {
-        top: 18px;
-        right: 52px;
-        left: auto;
-    }
-}
-
 
 @media (max-width: 1920px) {
     .product-grid .container {
@@ -427,11 +452,6 @@
         max-width: calc(33.33% - 10px);
         flex: 0 0 calc(33.33% - 10px);
         margin-bottom: 16px;
-    }
-
-    .more-details img {
-        width: 25px;
-        height: 25px;
     }
 }
 
@@ -453,9 +473,39 @@
         margin: 40px 0 40px;
     }
 
-    .product-grid .product-grid__item .more-details {
-        top: 18px !important;
-        left: 101px !important;
+    .product-grid .more-details img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .product-grid .product-grid__item:nth-child(1) .more-details {
+        top: 46%;
+        left: 38%;
+    }
+
+    .product-grid .product-grid__item:nth-child(2) .more-details {
+        top: 28%;
+        left: 68%;
+    }
+
+    .product-grid .product-grid__item:nth-child(3) .more-details {
+        top: 26%;
+        left: 56%;
+    }
+
+    .product-grid .product-grid__item:nth-child(4) .more-details {
+        top: 22%;
+        left: 58%;
+    }
+
+    .product-grid .product-grid__item:nth-child(5) .more-details {
+        top: 36%;
+        left: 46%;
+    }
+
+    .product-grid .product-grid__item:nth-child(6) .more-details {
+        top: 26%;
+        left: 66%;
     }
 
     .small-modal {

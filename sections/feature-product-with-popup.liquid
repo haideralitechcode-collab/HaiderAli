@@ -25,9 +25,11 @@
     {% endcomment %}
     <div class="modal" id="modal">
         <div class="modal-content">
-            <a href="#" class="close-button">
-                <img src="{{ 'close.png' | asset_url }}" alt="Cross" width="auto" height="auto">
-            </a>
+            <button type="button" class="close-button" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M12.025 11.176L8.85 8l3.175-3.176a.6.6 0 1 0-.849-.849L8 7.151 4.825 3.975a.6.6 0 1 0-.849.849L7.151 8l-3.175 3.176a.6.6 0 1 0 .849.849L8 8.849l3.176 3.176a.6.6 0 1 0 .849-.849z" fill="#121212"/>
+                </svg>
+            </button>
             <div class="modal-body">
                 <div class="modal-body__info">
                     <div class="modal-body__info__image largePopupImage">
