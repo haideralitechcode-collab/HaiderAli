@@ -403,6 +403,14 @@
     }
 }
 
+@media (max-width: 1919px) {
+    .product-grid .product-grid__item:nth-child(1) .more-details {
+        top: 18px;
+        right: 52px;
+        left: auto;
+    }
+}
+
 
 @media (max-width: 1920px) {
     .product-grid .container {
@@ -419,12 +427,6 @@
         max-width: calc(33.33% - 10px);
         flex: 0 0 calc(33.33% - 10px);
         margin-bottom: 16px;
-    }
-
-    .product-grid .product-grid__item:nth-child(1) .more-details {
-        top: 18px;
-        right: 52px;
-        left: auto;
     }
 
     .more-details img {
