@@ -423,7 +423,8 @@
 
     .product-grid .product-grid__item:nth-child(1) .more-details {
         top: 18px;
-        left: 52px;
+        right: 52px;
+        left: auto;
     }
 
     .more-details img {
