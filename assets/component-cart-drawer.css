@@ -713,12 +713,21 @@ cart-drawer .cart-remove-button .svg-wrapper {
   width: 16px !important;
   height: 16px !important;
   margin: 0 !important;
+  color: #121212 !important;
 }
 
 cart-drawer .cart-remove-button .svg-wrapper svg {
   width: 16px !important;
   height: 16px !important;
   display: block !important;
+  color: #121212 !important;
+  stroke: #121212 !important;
+}
+
+cart-drawer .cart-remove-button .svg-wrapper svg path {
+  stroke: #121212 !important;
+  fill: none !important;
+  stroke-width: 1.5 !important;
 }
 
 cart-drawer quantity-popover,
