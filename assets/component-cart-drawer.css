@@ -507,8 +507,9 @@ cart-drawer .cart-items thead {
 }
 
 cart-drawer .cart-items thead tr {
-  display: flex;
-  justify-content: space-between;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
   width: 100%;
 }
 
@@ -524,7 +525,18 @@ cart-drawer .cart-items thead th {
 cart-drawer .cart-items thead th:first-child,
 cart-drawer .cart-items thead th:last-child {
   width: auto !important;
-  display: none;
+  display: none !important;
+}
+
+cart-drawer .cart-items thead th#CartDrawer-ColumnProduct {
+  text-align: left !important;
+  margin-right: auto;
+}
+
+cart-drawer .cart-items thead th#CartDrawer-ColumnTotal {
+  text-align: right !important;
+  margin-left: auto !important;
+  min-width: 64px;
 }
 
 cart-drawer .cart-item {
