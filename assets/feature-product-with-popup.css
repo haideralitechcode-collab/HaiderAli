@@ -19,10 +19,60 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     cursor: pointer;
-    background-color: transparent;
-    border: 0;
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transform: translate(-50%, -50%);
+}
+
+.product-grid .more-details:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.product-grid .more-details img {
+    width: 12px;
+    height: 12px;
+    display: block;
+    pointer-events: none;
+}
+
+/* Figma hotspot positions (percent of each card) */
+.product-grid .product-grid__item:nth-child(1) .more-details {
+    top: 48%;
+    left: 40%;
+}
+
+.product-grid .product-grid__item:nth-child(2) .more-details {
+    top: 26%;
+    left: 70%;
+}
+
+.product-grid .product-grid__item:nth-child(3) .more-details {
+    top: 24%;
+    left: 58%;
+}
+
+.product-grid .product-grid__item:nth-child(4) .more-details {
+    top: 20%;
+    left: 60%;
+}
+
+.product-grid .product-grid__item:nth-child(5) .more-details {
+    top: 34%;
+    left: 48%;
+}
+
+.product-grid .product-grid__item:nth-child(6) .more-details {
+    top: 24%;
+    left: 68%;
 }
 
 .product-grid .product-grid__item-main {
@@ -386,49 +436,20 @@
         margin-bottom: 30px;
     }
 
-    .product-grid .product-grid__item:nth-child(1) .more-details {
-        top: 238px;
-        left: 256px;
+    .product-grid .more-details {
+        width: 34px;
+        height: 34px;
     }
 
-    .product-grid .product-grid__item:nth-child(2) .more-details {
-        top: 222px;
-        left: 355px;
-    }
-
-    .product-grid .product-grid__item:nth-child(3) .more-details {
-        top: 82px;
-        left: 261px;
-    }
-
-    .product-grid .product-grid__item:nth-child(4) .more-details {
-        top: 71px;
-        left: 301px;
-    }
-
-    .product-grid .product-grid__item:nth-child(5) .more-details {
-        top: 104px;
-        left: 212px;
-    }
-
-    .product-grid .product-grid__item:nth-child(6) .more-details {
-        top: 164px;
-        left: 319px;
+    .product-grid .more-details img {
+        width: 14px;
+        height: 14px;
     }
 
     #add-to-cart-btn .icon img {
         width: 35px;
     }
 }
-
-@media (max-width: 1024px) {
-    .product-grid .product-grid__item:nth-child(1) .more-details {
-        top: 18px;
-        right: 52px;
-        left: auto;
-    }
-}
-
 
 @media (max-width: 1920px) {
     .product-grid .container {
@@ -445,11 +466,6 @@
         max-width: calc(33.33% - 10px);
         flex: 0 0 calc(33.33% - 10px);
         margin-bottom: 16px;
-    }
-
-    .more-details img {
-        width: 25px;
-        height: 25px;
     }
 }
 
@@ -471,9 +487,44 @@
         margin: 40px 0 40px;
     }
 
-    .product-grid .product-grid__item .more-details {
-        top: 18px !important;
-        left: 101px !important;
+    .product-grid .more-details {
+        width: 24px;
+        height: 24px;
+    }
+
+    .product-grid .more-details img {
+        width: 10px;
+        height: 10px;
+    }
+
+    .product-grid .product-grid__item:nth-child(1) .more-details {
+        top: 46%;
+        left: 38%;
+    }
+
+    .product-grid .product-grid__item:nth-child(2) .more-details {
+        top: 28%;
+        left: 68%;
+    }
+
+    .product-grid .product-grid__item:nth-child(3) .more-details {
+        top: 26%;
+        left: 56%;
+    }
+
+    .product-grid .product-grid__item:nth-child(4) .more-details {
+        top: 22%;
+        left: 58%;
+    }
+
+    .product-grid .product-grid__item:nth-child(5) .more-details {
+        top: 36%;
+        left: 46%;
+    }
+
+    .product-grid .product-grid__item:nth-child(6) .more-details {
+        top: 26%;
+        left: 66%;
     }
 
     .small-modal {
