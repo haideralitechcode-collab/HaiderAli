@@ -1,165 +1,200 @@
-import { Component } from '@theme/component';
-import { StandardEvents } from '@shopify/events';
-import { DrawerOpenEvent } from '@theme/theme-drawer';
-import { ThemeEvents } from '@theme/events';
+class CartDrawer extends HTMLElement {
+  constructor() {
+    super();
 
-/**
- * A custom element that manages cart drawer behavior within a `<theme-drawer>`.
- *
- * Dialog lifecycle (open/close, squeeze, history, animations) is owned by `<theme-drawer>`.
- * The `cart:view` event is auto-dispatched by `CartItemsComponent` via the
- * `view-event-trigger="dialog"` attribute (see `snippets/cart-items-component.liquid`).
- * Cart count announcements are owned by `<header-actions>`.
- * This component handles the remaining cart-specific concerns: auto-open on add-to-cart,
- * sticky summary layout, and the installments CTA close-on-click.
- *
- * @extends {Component}
- */
-class CartDrawerComponent extends Component {
-  /** @type {number} */
-  #summaryThreshold = 0.5;
-
-  /** @type {import('@theme/theme-drawer').ThemeDrawer | null} */
-  get #themeDrawer() {
-    return /** @type {import('@theme/theme-drawer').ThemeDrawer | null} */ (this.closest('theme-drawer'));
+    this._onOverlayClick = this.close.bind(this);
+    this.addEventListener('keyup', (evt) => evt.code === 'Escape' && this.close());
+    this.bindCloseTriggers();
+    this.setHeaderCartIconAccessibility();
   }
 
-  /** @type {HTMLDialogElement | null} */
-  get #dialog() {
-    return this.closest('dialog');
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    document.addEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
-    this.#themeDrawer?.addEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
-    this.addEventListener(ThemeEvents.cartSectionRestored, this.#handleCartSectionRestored);
-    this.addEventListener('click', this.#handleInstallmentsClick, true);
-
-    // The restore path sets [open] before this module loads, so the
-    // theme-drawer:open event will have already fired. Use the attribute
-    // check so this works even before <theme-drawer> upgrades.
-    if (this.#themeDrawer?.hasAttribute('open')) {
-      this.#handleDrawerOpen();
-    }
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
-    this.#themeDrawer?.removeEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
-    this.removeEventListener(ThemeEvents.cartSectionRestored, this.#handleCartSectionRestored);
-    this.removeEventListener('click', this.#handleInstallmentsClick, true);
-  }
-
-  /**
-   * Recomputes the sticky summary after a back/forward cache restore re-renders the cart items.
-   *
-   * On viewports at or above 990px an open drawer survives a navigation and is reopened during
-   * parsing (see the restore script in `snippets/theme-drawer.liquid`), so no open event fires
-   * on the way back and the measurement taken before the shopper left is the one still applied.
-   * An empty drawer measured as unpinned would keep the checkout CTA scrolling away once the
-   * restore fills it with line items.
-   */
-  #handleCartSectionRestored = () => {
-    requestAnimationFrame(() => this.#updateStickyState());
-  };
-
-  /** Handles the theme-drawer opening by updating its sticky state. */
-  #handleDrawerOpen = () => {
-    this.#updateStickyState();
-  };
-
-  /**
-   * Closes the cart drawer before the installments dialog opens.
-   *
-   * The payment-terms element replaces its shadow content when cart totals change,
-   * so listen on this stable ancestor instead of binding to a particular CTA instance.
-   *
-   * @param {MouseEvent} event
-   */
-  #handleInstallmentsClick = (event) => {
-    const path = event.composedPath();
-    const ctaIndex = path.findIndex(
-      (element) => element instanceof Element && element.id === 'shopify-installments-cta'
-    );
-    if (ctaIndex === -1) return;
-
-    const ctaRoot = path.slice(ctaIndex + 1).find((element) => element instanceof ShadowRoot);
-    if (!ctaRoot?.host.matches('shopify-payment-terms')) return;
-
-    this.#themeDrawer?.close();
-  };
-
-  /**
-   * @param {import('@shopify/events').CartLinesUpdateEvent} event
-   */
-  #handleCartLinesUpdate = (event) => {
-    const shouldAutoOpen = this.hasAttribute('auto-open') && event.action === 'add' && !this.#themeDrawer?.isOpen;
-
-    // When the event originates inside an open MODAL <dialog> (e.g. quick-add),
-    // defer the auto-open until that dialog's native `close` fires so its focus
-    // restoration runs first — otherwise we'd capture the wrong
-    // `#previouslyFocused`. Non-modal dialogs (e.g. the hotspot preview) don't
-    // close on add and don't move focus, so `:modal` excludes them.
-    const sourceModal = /** @type {HTMLDialogElement | null} */ (
-      event.target instanceof Element ? event.target.closest('dialog:modal') : null
-    );
-
-    if (shouldAutoOpen && !sourceModal && !this.#isCartEmpty()) {
-      this.#themeDrawer?.open();
+  bindCloseTriggers() {
+    const overlay = this.querySelector('#CartDrawer-Overlay');
+    if (overlay) {
+      overlay.removeEventListener('click', this._onOverlayClick);
+      overlay.addEventListener('click', this._onOverlayClick);
     }
 
-    event.promise
-      ?.then(({ detail }) => {
-        const settle = () => requestAnimationFrame(() => this.#updateStickyState());
+    this.querySelectorAll('.drawer__close').forEach((closeButton) => {
+      closeButton.onclick = (event) => {
+        event.preventDefault();
+        this.close();
+      };
+    });
+  }
 
-        if (!shouldAutoOpen || detail?.didError) {
-          settle();
-          return;
+  setHeaderCartIconAccessibility() {
+    const cartLink =
+      document.querySelector('#cart-icon-bubble') ||
+      document.querySelector('[data-testid="cart-drawer-trigger"]') ||
+      document.querySelector('[aria-controls="cart-drawer"]');
+    if (!cartLink) return;
+
+    cartLink.setAttribute('role', 'button');
+    cartLink.setAttribute('aria-haspopup', 'dialog');
+    cartLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.open(cartLink);
+    });
+    cartLink.addEventListener('keydown', (event) => {
+      if (event.code.toUpperCase() === 'SPACE') {
+        event.preventDefault();
+        this.open(cartLink);
+      }
+    });
+  }
+
+  clearForcedOpenStyles() {
+    ['visibility', 'opacity', 'display', 'z-index', 'pointer-events'].forEach((prop) => {
+      this.style.removeProperty(prop);
+    });
+
+    const inner = this.querySelector('.drawer__inner');
+    if (inner) {
+      ['transform', 'width', 'min-width', 'max-width', 'flex', 'background', 'background-color', 'visibility', 'opacity', 'display'].forEach(
+        (prop) => {
+          inner.style.removeProperty(prop);
         }
-
-        const openAndSettle = () => {
-          if (!this.#themeDrawer?.isOpen) this.#themeDrawer?.open();
-          settle();
-        };
-
-        if (sourceModal?.open) {
-          sourceModal.addEventListener('close', openAndSettle, { once: true });
-        } else {
-          openAndSettle();
-        }
-      })
-      .catch((error) => {
-        if (error?.name !== 'AbortError') console.warn('[cart-drawer] Event promise rejected:', error);
-      });
-  };
-
-  #isCartEmpty() {
-    return Boolean(this.querySelector('.cart-drawer--empty'));
-  }
-
-  #updateStickyState() {
-    const dialog = this.#dialog;
-    if (!dialog) return;
-
-    // Refs do not cross nested `*-component` boundaries (e.g., `cart-items-component`), so we query within the dialog.
-    const content = dialog.querySelector('.cart-drawer__content');
-    const summary = dialog.querySelector('.cart-drawer__summary');
-
-    if (!content || !summary) {
-      // Ensure the dialog doesn't get stuck in "unsticky" mode when summary disappears (e.g., empty cart).
-      dialog.setAttribute('cart-summary-sticky', 'false');
-      return;
+      );
     }
 
-    const drawerHeight = dialog.getBoundingClientRect().height;
-    const summaryHeight = summary.getBoundingClientRect().height;
-    const ratio = summaryHeight / drawerHeight;
-    dialog.setAttribute('cart-summary-sticky', ratio > this.#summaryThreshold ? 'false' : 'true');
+    const overlay = this.querySelector('#CartDrawer-Overlay');
+    if (overlay) {
+      overlay.style.removeProperty('background');
+      overlay.style.removeProperty('background-color');
+      overlay.style.removeProperty('opacity');
+      overlay.style.removeProperty('visibility');
+    }
+  }
+
+  ensureDrawerGeometry() {
+    const inner = this.querySelector('.drawer__inner');
+    if (!inner) return;
+
+    // Only force dimensions when rem collapse made the drawer unusable.
+    const width = inner.getBoundingClientRect().width;
+    if (width < 50) {
+      inner.style.setProperty('width', 'min(400px, calc(100vw - 30px))', 'important');
+      inner.style.setProperty('min-width', '280px', 'important');
+      inner.style.setProperty('max-width', 'calc(100vw - 30px)', 'important');
+      inner.style.setProperty('flex', '0 0 auto', 'important');
+      if (!getComputedStyle(inner).backgroundColor || getComputedStyle(inner).backgroundColor === 'rgba(0, 0, 0, 0)') {
+        inner.style.setProperty('background-color', '#ffffff', 'important');
+      }
+    }
+
+    // Keep drawer above Quick View modal without permanently blocking close.
+    const zIndex = parseInt(getComputedStyle(this).zIndex, 10);
+    if (!Number.isFinite(zIndex) || zIndex < 1100) {
+      this.style.zIndex = '1100';
+    }
+  }
+
+  open(triggeredBy) {
+    if (triggeredBy) this.setActiveElement(triggeredBy);
+    const cartDrawerNote = this.querySelector('[id^="Details-"] summary');
+    if (cartDrawerNote && !cartDrawerNote.hasAttribute('role')) this.setSummaryAccessibility(cartDrawerNote);
+    // here the animation doesn't seem to always get triggered. A timeout seem to help
+    setTimeout(() => {
+      this.classList.add('animate', 'active');
+      this.ensureDrawerGeometry();
+    });
+
+    this.addEventListener(
+      'transitionend',
+      () => {
+        const containerToTrapFocusOn = this.classList.contains('is-empty')
+          ? this.querySelector('.drawer__inner-empty')
+          : document.getElementById('CartDrawer');
+        const focusElement = this.querySelector('.drawer__inner') || this.querySelector('.drawer__close');
+        trapFocus(containerToTrapFocusOn, focusElement);
+      },
+      { once: true }
+    );
+
+    document.body.classList.add('overflow-hidden');
+  }
+
+  close() {
+    this.clearForcedOpenStyles();
+    this.classList.remove('active');
+    removeTrapFocus(this.activeElement);
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  setSummaryAccessibility(cartDrawerNote) {
+    cartDrawerNote.setAttribute('role', 'button');
+    cartDrawerNote.setAttribute('aria-expanded', 'false');
+
+    if (cartDrawerNote.nextElementSibling.getAttribute('id')) {
+      cartDrawerNote.setAttribute('aria-controls', cartDrawerNote.nextElementSibling.id);
+    }
+
+    cartDrawerNote.addEventListener('click', (event) => {
+      event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
+    });
+
+    cartDrawerNote.parentElement.addEventListener('keyup', onKeyUpEscape);
+  }
+
+  renderContents(parsedState) {
+    const drawerInner = this.querySelector('.drawer__inner');
+    if (drawerInner && drawerInner.classList.contains('is-empty')) {
+      drawerInner.classList.remove('is-empty');
+    }
+    this.productId = parsedState.id;
+    this.getSectionsToRender().forEach((section) => {
+      const sectionElement = section.selector
+        ? document.querySelector(section.selector)
+        : document.getElementById(section.id);
+
+      if (!sectionElement) return;
+      if (!parsedState.sections || !parsedState.sections[section.id]) return;
+      sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
+    });
+
+    setTimeout(() => {
+      this.bindCloseTriggers();
+      this.open();
+    });
+  }
+
+  getSectionInnerHTML(html, selector = '.shopify-section') {
+    const parsed = new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
+    return parsed ? parsed.innerHTML : '';
+  }
+
+  getSectionsToRender() {
+    return [
+      {
+        id: 'cart-drawer',
+        selector: '#CartDrawer',
+      },
+    ];
+  }
+
+  getSectionDOM(html, selector = '.shopify-section') {
+    return new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
+  }
+
+  setActiveElement(element) {
+    this.activeElement = element;
   }
 }
 
-if (!customElements.get('cart-drawer-component')) {
-  customElements.define('cart-drawer-component', CartDrawerComponent);
+customElements.define('cart-drawer', CartDrawer);
+
+class CartDrawerItems extends CartItems {
+  getSectionsToRender() {
+    return [
+      {
+        id: 'CartDrawer',
+        section: 'cart-drawer',
+        selector: '.drawer__inner',
+      },
+    ];
+  }
 }
+
+customElements.define('cart-drawer-items', CartDrawerItems);
