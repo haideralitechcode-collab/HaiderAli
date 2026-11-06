@@ -681,24 +681,56 @@ cart-drawer .quantity__button svg {
   height: 12px !important;
 }
 
-cart-drawer cart-remove-button,
-cart-drawer .cart-remove-button {
-  width: 34px !important;
-  min-width: 34px !important;
-  height: 34px !important;
-  padding: 0 !important;
+cart-drawer cart-remove-button {
   display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ececec !important;
-  border-radius: 4px !important;
-  background: #fff !important;
+  width: 34px !important;
+  height: 34px !important;
+  line-height: 0 !important;
 }
 
-cart-drawer .cart-remove-button .svg-wrapper,
-cart-drawer .cart-remove-button svg {
+cart-drawer .cart-remove-button.button,
+cart-drawer button.cart-remove-button {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid #d0d0d0 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  line-height: 1 !important;
+}
+
+cart-drawer .cart-remove-button .svg-wrapper {
+  display: inline-flex !important;
   width: 16px !important;
   height: 16px !important;
+  margin: 0 !important;
+}
+
+cart-drawer .cart-remove-button .svg-wrapper svg {
+  width: 16px !important;
+  height: 16px !important;
+  display: block !important;
+}
+
+cart-drawer quantity-popover,
+cart-drawer .quantity-popover-wrapper,
+cart-drawer .quantity-popover-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 cart-drawer .cart-item .loading__spinner {
@@ -723,6 +755,19 @@ cart-drawer .drawer__inner > cart-drawer-items {
   max-height: none !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+cart-drawer-items #CartDrawer-Form,
+cart-drawer-items .cart__contents,
+cart-drawer-items .drawer__contents,
+cart-drawer-items .drawer__cart-items-wrapper,
+cart-drawer-items .cart-items {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
 }
 
 @media screen and (max-height: 650px) {
